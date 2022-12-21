@@ -36,7 +36,7 @@ export default {
   }),
   methods: {
     add: function () {
-      console.log('123');
+      console.log('111');
     },
 
   },
