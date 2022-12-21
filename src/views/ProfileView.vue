@@ -34,8 +34,11 @@
                 </div>
               </div>
               <h3 class="card-title mt-4">Телефон</h3>
-              <TelefonItem/>
-              <TelefonItem/>               
+              <TelefonItem
+                v-for="telefon in telefons"
+                :key="telefon.id"
+                :value="telefon.value"
+              />              
             </div>
             <div class="card-footer bg-transparent mt-auto">
               <div class="btn-list justify-content-end">
@@ -65,7 +68,10 @@ export default {
     ChangePasswordModal,
   },
   data: () => ({
-    modalName: 'ChangePasswordModal',
+    telefons: [
+      { id: 1, value: '+7 (918) 1111 11 11' },
+      { id: 2, value: '+7 (918) 2222 22 22' },
+    ],
   }),
   methods: {
 
