@@ -161,102 +161,8 @@
 							>
 						</h4>
 						<h3>Данные туристов</h3>
-						<div class="row align-items-center mb-2">
-							<div class="col-1">
-								<label class="form-label mb-2">Фамилия* </label>
-								<input type="text" class="form-control" />
-							</div>
-							<div class="col-1">
-								<label class="form-label mb-2">Имя* </label>
-								<input type="text" class="form-control" />
-							</div>
-							<div class="col-1">
-								<label class="form-label mb-2">Отчество* </label>
-								<input type="text" class="form-control" />
-							</div>
-							<div class="col-auto">
-								<label class="form-label mb-2">Дата рождения </label>
-								<input type="date" class="form-control" />
-							</div>
-							<div class="col-auto">
-								<label class="form-label mb-2">Паспорт серия номер* </label>
-								<input type="text" class="form-control" />
-							</div>
-							<div class="col-auto">
-								<label class="form-label mb-2">Телефон </label>
-								<input type="text" class="form-control" />
-							</div>
-							<div class="col-auto">
-								<div class="form-label mb-1">Статус</div>
-								<select class="form-select-sm">
-									<option v-for="status in touristStatuses" :key="status.id">
-										{{ status.name }}
-									</option>
-								</select>
-							</div>
-							<div class="col-auto">
-								<div class="form-label mb-1">Пол</div>
-								<select class="form-select-sm">
-									<option>мужской</option>
-									<option>женский</option>
-								</select>
-							</div>
-							<div class="col-auto cursor-pointer">
-								<img
-									src="../assets/icons/edit.svg"
-									alt="Edit Icon"
-									height="40"
-								/>
-							</div>
-						</div>
-						<div class="row align-items-center mb-2">
-							<div class="col-1">
-								<label class="form-label mb-2">Фамилия* </label>
-								<input type="text" class="form-control" />
-							</div>
-							<div class="col-1">
-								<label class="form-label mb-2">Имя* </label>
-								<input type="text" class="form-control" />
-							</div>
-							<div class="col-1">
-								<label class="form-label mb-2">Отчество* </label>
-								<input type="text" class="form-control" />
-							</div>
-							<div class="col-auto">
-								<label class="form-label mb-2">Дата рождения </label>
-								<input type="date" class="form-control" />
-							</div>
-							<div class="col-auto">
-								<label class="form-label mb-2">Паспорт серия номер* </label>
-								<input type="text" class="form-control" />
-							</div>
-							<div class="col-auto">
-								<label class="form-label mb-2">Телефон </label>
-								<input type="text" class="form-control" />
-							</div>
-							<div class="col-auto">
-								<div class="form-label mb-1">Статус</div>
-								<select class="form-select-sm">
-									<option v-for="status in touristStatuses" :key="status.id">
-										{{ status.name }}
-									</option>
-								</select>
-							</div>
-							<div class="col-auto">
-								<div class="form-label mb-1">Пол</div>
-								<select class="form-select-sm">
-									<option>мужской</option>
-									<option>женский</option>
-								</select>
-							</div>
-							<div class="col-auto cursor-pointer">
-								<img
-									src="../assets/icons/edit.svg"
-									alt="Edit Icon"
-									height="40"
-								/>
-							</div>
-						</div>
+						<TouristData />
+						<TouristData />
 						<div class="row mb-3">
 							<div class="col-2">
 								<button class="btn btn-primary">Сохранить</button>
@@ -309,65 +215,76 @@
 							<div class="col-2">
 								<button class="btn btn-primary">Назад</button>
 							</div>
-							<div class="col-2 offset-2 cursor-pointer">
+							<div
+								class="col-2 offset-2 cursor-pointer"
+								@click="cancelTheOrder"
+							>
 								<img src="../assets/icons/close.svg" alt="Close Icon" />
 								<span class="fs-3 text-decoration-underline"
 									>Отменить заявку</span
 								>
 							</div>
 						</div>
-						<div class="border alert-custom p-3 mb-2">
-							<h3 class="mb-3">Вы уверены, что хотите отменить заявку?</h3>
-							<div class="d-flex justify-content-around">
-								<button class="btn btn-danger w-25">Назад</button>
-								<button class="btn btn-success w-25">Да</button>
-							</div>
-						</div>
-						<div class="border alert-custom p-3">
-							<h3 class="mb-3">
-								Заявка отменена, оформите прошение на возврат средств.
-							</h3>
-							<button class="btn btn-primary w-25 mx-auto d-block">
-								Перейти
-							</button>
-						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	<ConditionAlert
+		v-if="alerts.isCondition"
+		:title="'Вы уверены, что хотите отменить заявку?'"
+		@cancel="closeIsConfirm"
+		@confirm="confirmAlert"
+	/>
+	<ConfirmAlert
+		:title="'Заявка отменена, оформите прошение на возврат средств.'"
+		:btnSpan="'Перейти'"
+		@confirm="closeIsConfirm"
+		v-if="alerts.isConfirm"
+	/>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component'
-//import NavBar from '@/components/NavBar.vue';
+import { defineComponent } from 'vue'
 
-export default {
+//import NavBar from '@/components/NavBar.vue';
+import TouristData from '@/components/TouristData.vue'
+import ConfirmAlert from '@/components/Alert/ConfirmAlert.vue'
+import ConditionAlert from '@/components/Alert/ConditionAlert.vue'
+
+export default defineComponent({
 	props: [],
-	components: {},
+	components: { TouristData, ConfirmAlert, ConditionAlert },
 	data: () => ({
 		eatOptions: [
 			{ id: 1, name: 'Стандартное' },
 			{ id: 2, name: 'Постное' },
 			{ id: 3, name: 'Детское' },
 		],
-		touristStatuses: [
-			{ id: 1, name: 'взрослый' },
-			{ id: 2, name: 'ребенок до 12 лет' },
-			{ id: 3, name: 'ребенок до 6 лет' },
-			{ id: 4, name: 'пенсионер' },
-		],
+		alerts: {
+			isCondition: false as boolean,
+			isConfirm: false as boolean,
+		},
 	}),
-	methods: {},
-}
+	methods: {
+		cancelTheOrder() {
+			this.alerts.isCondition = true
+		},
+		confirmAlert() {
+			this.alerts.isCondition = false
+			this.alerts.isConfirm = true
+		},
+		closeIsConfirm() {
+			this.alerts.isCondition = false
+			this.alerts.isConfirm = false
+		},
+	},
+})
 </script>
 
 <style>
 .table {
 	text-align: center;
-}
-
-.alert-custom {
-	max-width: fit-content;
 }
 </style>
