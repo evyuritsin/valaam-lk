@@ -2,10 +2,18 @@
   <div>
     <div class="row g-2">
       <div class="col-auto">
-        <input type="text" class="form-control w-auto" value="">
+        <input 
+          :id="key"
+          type="text" 
+          class="form-control w-auto" 
+          :value="value"
+        >
       </div>
       <div class="col-auto">
-        <a href="#" class="btn">+</a>
+        <button 
+          class="btn"
+          @click="add"
+        >+</Button>
       </div>
     </div>    
   </div>
@@ -18,7 +26,7 @@ import { Options, Vue } from 'vue-class-component';
 
 export default {
   props: [
-
+    'value'
   ],
   components: {
     
@@ -27,6 +35,9 @@ export default {
     
   }),
   methods: {
+    add: function () {
+      console.log('123');
+    },
 
   },
 }
