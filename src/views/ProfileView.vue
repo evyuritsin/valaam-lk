@@ -33,12 +33,17 @@
                   </div>
                 </div>
               </div>
-              <h3 class="card-title mt-4">Телефон</h3>
-              <TelefonItem
-                v-for="telefon in telefons"
+              <h3 class="card-title mt-4">
+                Телефон
+                <span>
+                  <button class="btn" @click="addTelefon">+</Button>
+                </span>
+              </h3>
+              <TelefonItem 
+                v-for="(telefon, index) in telefons"
                 :key="telefon.id"
                 :value="telefon.value"
-              />              
+              />            
             </div>
             <div class="card-footer bg-transparent mt-auto">
               <div class="btn-list justify-content-end">
@@ -54,11 +59,9 @@
   <ChangePasswordModal/>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from 'vue-class-component';
-import TelefonItem from '@/components/TelefonItem.vue';
+<script>
 import ChangePasswordModal from '@/components/ChangePasswordModal.vue';
-
+import TelefonItem from '@/components/TelefonItem.vue';
 export default {
   props: [
 
