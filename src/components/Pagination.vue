@@ -2,21 +2,30 @@
 	<nav :aria-label="label">
 		<ul class="pagination d-flex align-items-baseline">
 			<li class="page-item">
-				<a class="page-link" href="#" aria-label="Previous">
+				<a
+					class="page-link"
+					href="#"
+					aria-label="Previous"
+					@click="$emit('prev')"
+				>
 					<span aria-hidden="true">&laquo;</span>
 				</a>
 			</li>
-			<li class="page-item" v-for="(link, indx) in [...Array(3)]" :key="indx">
-				<a class="page-link" href="#" :class="[indx == 0 && 'active']">{{
-					indx + 1
-				}}</a>
+			<li
+				class="page-item"
+				v-for="(link, indx) in [...Array(countOfPages)]"
+				:key="indx"
+			>
+				<a
+					class="page-link"
+					href="#"
+					:class="[indx + 1 == selectPage && 'active']"
+					@click="$emit('click-to-pagination', indx + 1)"
+					>{{ indx + 1 }}</a
+				>
 			</li>
-			<span v-if="linkMoreThanFive">...</span>
 			<li class="page-item">
-				<a href="#" class="page-link">{{ countOfPages }}</a>
-			</li>
-			<li class="page-item">
-				<a class="page-link" href="#" aria-label="Next">
+				<a class="page-link" href="#" aria-label="Next" @click="$emit('next')">
 					<span aria-hidden="true">&raquo;</span>
 				</a>
 			</li>
@@ -28,13 +37,8 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-	props: ['countOfPages', 'label'],
+	props: ['countOfPages', 'label', 'selectPage'],
 	name: 'PaginationItem',
-	computed: {
-		linkMoreThanFive() {
-			return this.countOfPages >= 5
-		},
-	},
 })
 </script>
 
