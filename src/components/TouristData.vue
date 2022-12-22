@@ -22,7 +22,7 @@
 		</div>
 		<div class="col-auto">
 			<label class="form-label mb-2">Телефон </label>
-			<input type="text" class="form-control" />
+			<input type="tel" class="form-control" v-mask="'+7 (###) ### ## ##'" />
 		</div>
 		<div class="col-auto">
 			<div class="form-label mb-1">Статус</div>

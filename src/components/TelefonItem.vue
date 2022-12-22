@@ -3,10 +3,11 @@
 		<div class="row g-2">
 			<div class="col-auto">
 				<input
-					type="text"
+					type="tel"
 					class="form-control w-auto"
 					:value="modelValue"
 					@input="$emit('update:modelValue', $event.target.value)"
+					v-mask="'+7 (###) ### ## ##'"
 				/>
 			</div>
 			<div class="col-auto">
