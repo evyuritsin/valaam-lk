@@ -1,16 +1,30 @@
 <template>
-    <aside class="navbar navbar-vertical navbar-expand-lg navbar-transparent">
-        <div class="container-fluid">
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-menu" aria-controls="sidebar-menu" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <h1 class="navbar-brand navbar-brand-autodark">
-            <a href=".">
-              <img src="../assets/img/logo.svg" width="110" height="32" alt="Tabler" class="navbar-brand-image">
-            </a>
-          </h1>
-          <div class="navbar-nav flex-row d-lg-none">
-            <!--div class="nav-item d-none d-lg-flex me-3">
+	<aside class="navbar navbar-vertical navbar-expand-lg navbar-transparent">
+		<div class="container-fluid">
+			<button
+				class="navbar-toggler"
+				type="button"
+				data-bs-toggle="collapse"
+				data-bs-target="#sidebar-menu"
+				aria-controls="sidebar-menu"
+				aria-expanded="false"
+				aria-label="Toggle navigation"
+			>
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<h1 class="navbar-brand navbar-brand-autodark">
+				<router-link to="/">
+					<img
+						src="../assets/img/logo.svg"
+						width="110"
+						height="32"
+						alt="Tabler"
+						class="navbar-brand-image"
+					/>
+				</router-link>
+			</h1>
+			<div class="navbar-nav flex-row d-lg-none">
+				<!--div class="nav-item d-none d-lg-flex me-3">
               <div class="btn-list">
                 <a href="https://github.com/tabler/tabler" class="btn" target="_blank" rel="noreferrer">
                   <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5"></path></svg>
@@ -22,7 +36,7 @@
                 </a>
               </div>
             </div-->
-            <!--div class="d-none d-lg-flex">
+				<!--div class="d-none d-lg-flex">
               <a href="?theme=dark" class="nav-link px-0 hide-theme-dark" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Enable dark mode" data-bs-original-title="Enable dark mode">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"></path></svg>
               </a>
@@ -109,7 +123,7 @@
                 </div>
               </div>
             </div-->
-            <!--div class="nav-item dropdown">
+				<!--div class="nav-item dropdown">
               <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
                 <span class="avatar avatar-sm" style="background-image: url(./static/avatars/000m.jpg)"></span>
                 <div class="d-none d-xl-block ps-2">
@@ -126,47 +140,48 @@
                 <a href="./sign-in.html" class="dropdown-item">Logout</a>
               </div>
             </div-->
-          </div>
-          <div class="collapse navbar-collapse" id="sidebar-menu">
-            <ul class="navbar-nav pt-lg-3">
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="false">
-                  <span class="nav-link-title">Личный кабинет</span>
-                </a>
-                <div class="dropdown-menu">
-                  <div class="dropdown-menu-columns">
-                    <div class="dropdown-menu-column">
-                      <a class="dropdown-item" href="./profile">Профиль</a>
-                      <a class="dropdown-item" href="./orders">Мои заявки</a>
-                    </div>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-    </aside>
+			</div>
+			<div class="collapse navbar-collapse" id="sidebar-menu">
+				<ul class="navbar-nav pt-lg-3">
+					<li class="nav-item dropdown">
+						<a
+							class="nav-link dropdown-toggle"
+							href="#navbar-base"
+							data-bs-toggle="dropdown"
+							data-bs-auto-close="false"
+							role="button"
+							aria-expanded="false"
+						>
+							<span class="nav-link-title">Личный кабинет</span>
+						</a>
+						<div class="dropdown-menu">
+							<div class="dropdown-menu-columns">
+								<div class="dropdown-menu-column">
+									<router-link class="dropdown-item" to="./profile"
+										>Профиль</router-link
+									>
+									<router-link class="dropdown-item" to="./orders"
+										>Мои заявки</router-link
+									>
+								</div>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</aside>
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
-//import MotorShipsItem from '@/components/MotorShipsItem.vue'; 
+import { Options, Vue } from 'vue-class-component'
+//import MotorShipsItem from '@/components/MotorShipsItem.vue';
 
 export default {
-  props: [
-
-  ],
-  components: {
-    
-  },
-  data: () => ({
-    
-  }),
-  methods: {
-
-  },
+	props: [],
+	components: {},
+	data: () => ({}),
+	methods: {},
 }
 </script>
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

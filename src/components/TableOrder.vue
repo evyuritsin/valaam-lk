@@ -8,7 +8,7 @@
 		<td>{{ order.paymentType }}</td>
 		<td>{{ order.status }}</td>
 		<td><a v-if="order.qrcode" :href="order.qrcode">Скачать</a></td>
-		<td><a :href="order.details">Подробно</a></td>
+		<td><router-link :to="`/order/${order.id}`">Подробно</router-link></td>
 	</tr>
 </template>
 

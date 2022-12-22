@@ -15,7 +15,7 @@ const routes: Array<RouteRecordRaw> = [
 		component: OrdersView,
 	},
 	{
-		path: '/order',
+		path: '/order/:id',
 		name: 'order',
 		component: OrderView,
 	},

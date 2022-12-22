@@ -4,8 +4,8 @@
 			<div class="card">
 				<div class="col d-flex flex-column">
 					<div class="card-body">
-						<h2>Заявка № 420</h2>
-						<h2>Валаамское мгновение из Приозерска</h2>
+						<h2>Заявка № {{ order.id }}</h2>
+						<h2>{{ order.title }}</h2>
 						<div class="row align-items-center mb-2">
 							<div class="col-2">
 								<span>Автобус</span>
@@ -161,8 +161,10 @@
 							>
 						</h4>
 						<h3>Данные туристов</h3>
-						<TouristData />
-						<TouristData />
+						<TouristData
+							v-for="(tourist, index) in [...Array(order.persons)]"
+							:key="index"
+						/>
 						<div class="row mb-3">
 							<div class="col-2">
 								<button class="btn btn-primary">Сохранить</button>
@@ -189,7 +191,7 @@
 									<td>Оплата</td>
 									<td>29.09.22</td>
 									<td>24000</td>
-									<td>24000</td>
+									<td>{{ order.amount }}</td>
 								</tr>
 							</tbody>
 						</table>
@@ -208,7 +210,7 @@
 									alt="QR-code"
 									class="w-100 mb-2"
 								/>
-								<button class="btn w-100">Скачать</button>
+								<a class="btn w-100" :href="order.qrcode">Скачать</a>
 							</div>
 						</div>
 						<div class="row align-items-center mb-3">
@@ -247,6 +249,8 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component'
 import { defineComponent } from 'vue'
+import OrderInterface from '../types/order'
+import store from '@/store'
 
 //import NavBar from '@/components/NavBar.vue';
 import TouristData from '@/components/TouristData.vue'
@@ -278,6 +282,11 @@ export default defineComponent({
 		closeIsConfirm() {
 			this.alerts.isCondition = false
 			this.alerts.isConfirm = false
+		},
+	},
+	computed: {
+		order(): OrderInterface {
+			return store.getters.getOrderById(Number(this.$route.params.id))
 		},
 	},
 })
