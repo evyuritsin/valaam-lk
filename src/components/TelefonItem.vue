@@ -3,30 +3,27 @@
     <div class="row g-2">
       <div class="col-auto">
         <input 
-          :id="key"
           type="text" 
-          class="form-control w-auto" 
-          :value="value"
+          class="form-control w-auto"
         >
       </div>
       <div class="col-auto">
         <button 
           class="btn"
-          @click="add"
-        >+</Button>
+          @click="delTelefon"
+        >-</Button>
       </div>
     </div>    
   </div>
   <br>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from 'vue-class-component';
+<script>
 //import MotorShipsItem from '@/components/MotorShipsItem.vue'; 
 
 export default {
   props: [
-    'value'
+    
   ],
   components: {
     
@@ -35,10 +32,7 @@ export default {
     
   }),
   methods: {
-    add: function () {
-      console.log('111');
-    },
-
+  
   },
 }
 </script>
