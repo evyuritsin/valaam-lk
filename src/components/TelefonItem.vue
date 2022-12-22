@@ -2,7 +2,12 @@
 	<div>
 		<div class="row g-2">
 			<div class="col-auto">
-				<input type="text" class="form-control w-auto" :value="telefon.value" />
+				<input
+					type="text"
+					class="form-control w-auto"
+					:value="modelValue"
+					@input="$emit('update:modelValue', $event.target.value)"
+				/>
 			</div>
 			<div class="col-auto">
 				<button class="btn" @click="$emit('deleteTelefon', telefon.id)">
@@ -18,7 +23,7 @@
 //import MotorShipsItem from '@/components/MotorShipsItem.vue';
 
 export default {
-	props: ['telefon'],
+	props: ['telefon', 'modelValue'],
 	components: {},
 	data: () => ({}),
 	methods: {},

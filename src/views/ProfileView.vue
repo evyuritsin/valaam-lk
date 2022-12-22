@@ -10,15 +10,27 @@
 							<div class="row g-4">
 								<div class="col-md">
 									<div class="form-label">Фамилия</div>
-									<input type="text" class="form-control" value="Иванов" />
+									<input
+										type="text"
+										class="form-control"
+										v-model="profile.lastName"
+									/>
 								</div>
 								<div class="col-md">
 									<div class="form-label">Имя</div>
-									<input type="text" class="form-control" value="Иван" />
+									<input
+										type="text"
+										class="form-control"
+										v-model="profile.firstName"
+									/>
 								</div>
 								<div class="col-md">
 									<div class="form-label">Отчество</div>
-									<input type="text" class="form-control" value="Иванович" />
+									<input
+										type="text"
+										class="form-control"
+										v-model="profile.middleName"
+									/>
 								</div>
 								<div class="col-md">
 									<div class="form-label">Пароль</div>
@@ -35,7 +47,11 @@
 							<div>
 								<div class="row g-1">
 									<div class="col-auto">
-										<input type="text" class="form-control w-auto" value="" />
+										<input
+											type="text"
+											class="form-control w-auto"
+											v-model="profile.email"
+										/>
 									</div>
 								</div>
 							</div>
@@ -46,10 +62,11 @@
 								</span>
 							</h3>
 							<TelefonItem
-								v-for="telefon in telefons"
+								v-for="telefon in profile.telefons"
 								:key="telefon.id"
 								:telefon="telefon"
 								@deleteTelefon="deleteTelefon"
+								v-model="telefon.value"
 							/>
 						</div>
 						<div class="card-footer bg-transparent mt-auto">
@@ -63,7 +80,7 @@
 			</div>
 		</div>
 	</div>
-	<ChangePasswordModal />
+	<ChangePasswordModal @changePassword="changePassword" />
 </template>
 
 <script>
@@ -76,17 +93,32 @@ export default {
 		ChangePasswordModal,
 	},
 	data: () => ({
-		telefons: [
-			{ id: 1, value: '+7 (918) 1111 11 11' },
-			{ id: 2, value: '+7 (918) 2222 22 22' },
-		],
+		profile: {
+			firstName: 'Иванов',
+			lastName: 'Иван',
+			middleName: 'Иванович',
+			password: '12345',
+			email: 'ivanov@gmail.com',
+			telefons: [
+				{ id: 1, value: '+7 (918) 1111 11 11' },
+				{ id: 2, value: '+7 (918) 2222 22 22' },
+			],
+		},
 	}),
 	methods: {
 		addTelefon() {
-			this.telefons.push({ id: Date.now(), value: '' })
+			this.profile.telefons.push({ id: Date.now(), value: '' })
 		},
 		deleteTelefon(id) {
-			this.telefons = this.telefons.filter(tel => tel.id !== id)
+			this.profile.telefons = this.telefons.filter(tel => tel.id !== id)
+		},
+		changePassword(newPassword, oldPassword) {
+			if (oldPassword === this.profile.password) {
+				this.profile.password = newPassword
+				alert('Пароль успешно изменен')
+			} else {
+				alert('Старый пароль не подходит')
+			}
 		},
 	},
 }

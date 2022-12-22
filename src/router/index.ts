@@ -5,8 +5,8 @@ import OrderView from '../views/OrderView.vue'
 
 const routes: Array<RouteRecordRaw> = [
 	{
-		path: '/',
-		name: 'home',
+		path: '/profile',
+		name: 'profile',
 		component: ProfileView,
 	},
 	{
