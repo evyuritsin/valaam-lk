@@ -81,16 +81,35 @@
 		</div>
 	</div>
 	<ChangePasswordModal @changePassword="changePassword" />
+	<button
+		class="d-none"
+		data-bs-toggle="modal"
+		data-bs-target="#danger_alert"
+		ref="danger_button"
+	></button>
+	<AlertDanger title="Старый пароль не подходит" />
+	<button
+		class="d-none"
+		data-bs-toggle="modal"
+		data-bs-target="#successful_alert"
+		ref="successful_button"
+	></button>
+	<AlertSuccessful title="Пароль успешно изменен" />
 </template>
 
 <script>
 import ChangePasswordModal from '@/components/ChangePasswordModal.vue'
 import TelefonItem from '@/components/TelefonItem.vue'
+import AlertDanger from '@/components/Alert/AlertDanger.vue'
+import AlertSuccessful from '@/components/Alert/AlertSuccessful.vue'
+
 export default {
 	props: [],
 	components: {
 		TelefonItem,
 		ChangePasswordModal,
+		AlertDanger,
+		AlertSuccessful,
 	},
 	data: () => ({
 		profile: {
@@ -115,9 +134,9 @@ export default {
 		changePassword(newPassword, oldPassword) {
 			if (oldPassword === this.profile.password) {
 				this.profile.password = newPassword
-				alert('Пароль успешно изменен')
+				this.$refs['successful_button'].click()
 			} else {
-				alert('Старый пароль не подходит')
+				this.$refs['danger_button'].click()
 			}
 		},
 	},

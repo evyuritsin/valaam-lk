@@ -62,16 +62,24 @@
 			</div>
 		</div>
 	</div>
+	<button
+		class="d-none"
+		data-bs-toggle="modal"
+		data-bs-target="#danger_alert"
+		ref="danger_button"
+	></button>
+	<AlertDanger title="Новые пароли не совпадают" />
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component'
 import { defineComponent } from 'vue'
 //import MotorShipsItem from '@/components/MotorShipsItem.vue';
+import AlertDanger from './Alert/AlertDanger.vue'
 
 export default defineComponent({
 	props: [],
-	components: {},
+	components: { AlertDanger },
 	data: () => ({
 		oldPassword: '',
 		newPassword: '',
@@ -81,7 +89,9 @@ export default defineComponent({
 		changePassword() {
 			if (this.newPassword === this.repeatNewPassword) {
 				this.$emit('changePassword', this.newPassword, this.oldPassword)
-			} else alert('Новые пароли не совпадают')
+			} else {
+				;(this.$refs['danger_button'] as any).click()
+			}
 			this.refreshInputs()
 		},
 		refreshInputs() {
