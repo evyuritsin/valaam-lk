@@ -26,7 +26,7 @@
 		</div>
 		<div class="col-auto">
 			<div class="form-label mb-1">Статус</div>
-			<select class="form-select-sm">
+			<select class="form-select">
 				<option v-for="status in touristStatuses" :key="status.id">
 					{{ status.name }}
 				</option>
@@ -34,13 +34,13 @@
 		</div>
 		<div class="col-auto">
 			<div class="form-label mb-1">Пол</div>
-			<select class="form-select-sm">
+			<select class="form-select">
 				<option>мужской</option>
 				<option>женский</option>
 			</select>
 		</div>
 		<div class="col-auto cursor-pointer">
-			<img src="../assets/icons/edit.svg" alt="Edit Icon" height="40" />
+			<img src="../assets/icons/edit.svg" alt="Edit Icon" height="30" />
 		</div>
 	</div>
 </template>

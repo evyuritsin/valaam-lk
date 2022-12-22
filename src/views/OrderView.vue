@@ -200,7 +200,7 @@
 							<div class="col-6 d-flex flex-column align-items-start">
 								<div class="d-flex gap-2 align-items-center">
 									<img src="../assets/icons/file.svg" alt="File Icon" />
-									<p class="text-decoration-underline">Билет.pdf</p>
+									<a href="#">Билет.pdf</a>
 								</div>
 							</div>
 							<div class="col-2 d-flex flex-column align-items-start">
@@ -214,17 +214,29 @@
 							</div>
 						</div>
 						<div class="row align-items-center mb-3">
-							<div class="col-2">
+							<div class="col-auto">
 								<button class="btn btn-primary">Назад</button>
 							</div>
-							<div
-								class="col-2 offset-2 cursor-pointer"
-								@click="cancelTheOrder"
-							>
-								<img src="../assets/icons/close.svg" alt="Close Icon" />
-								<span class="fs-3 text-decoration-underline"
-									>Отменить заявку</span
-								>
+							<div class="col-2 cursor-pointer" @click="cancelTheOrder">
+								<button class="btn btn-danger">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										class="icon icon-tabler icon-tabler-x"
+										width="24"
+										height="24"
+										viewBox="0 0 24 24"
+										stroke-width="2"
+										stroke="currentColor"
+										fill="none"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									>
+										<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+										<line x1="18" y1="6" x2="6" y2="18" />
+										<line x1="6" y1="6" x2="18" y2="18" />
+									</svg>
+									<span> Отменить заявку </span>
+								</button>
 							</div>
 						</div>
 					</div>
@@ -282,6 +294,7 @@ export default defineComponent({
 		closeIsConfirm() {
 			this.alerts.isCondition = false
 			this.alerts.isConfirm = false
+			this.$router.push('/orders')
 		},
 	},
 	computed: {
