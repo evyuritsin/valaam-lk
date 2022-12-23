@@ -98,19 +98,23 @@ export default defineComponent({
 		},
 	},
 	watch: {
-		selectPage() {
-			if (this.selectPage === this.rightPage) {
-				this.groupOfPage++
-				this.leftPage += 3
-			}
-			if (this.selectPage === this.leftPage && this.groupOfPage !== 0) {
-				this.groupOfPage--
-				this.leftPage -= 3
-			}
-			if (this.selectPage === 1) {
-				this.groupOfPage = 0
-				this.leftPage = 1
-			}
+		selectPage: {
+			handler() {
+				if (this.selectPage === this.rightPage) {
+					this.groupOfPage++
+					this.leftPage += 3
+				}
+				if (this.selectPage === this.leftPage && this.groupOfPage !== 0) {
+					this.groupOfPage--
+					this.leftPage -= 3
+				}
+				if (this.selectPage === 1) {
+					this.groupOfPage = 0
+					this.leftPage = 1
+				}
+				console.log(this.groupOfPage, this.leftPage)
+			},
+			deep: true,
 		},
 	},
 })
