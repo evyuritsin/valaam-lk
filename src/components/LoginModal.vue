@@ -31,15 +31,19 @@
 							v-model="password"
 						/>
 					</div>
+					<span v-if="error" class="text-danger fs-2"
+						>Неверный логин или пароль</span
+					>
 				</div>
 				<div class="modal-footer">
-					<button
-						@click="clickToLogin"
-						class="btn btn-primary ms-auto w-100"
-						data-bs-dismiss="modal"
-					>
+					<button @click="clickToLogin" class="btn btn-primary ms-auto w-100">
 						Войти
 					</button>
+					<button
+						class="d-none"
+						ref="closeBtn"
+						data-bs-dismiss="modal"
+					></button>
 				</div>
 			</div>
 		</div>
@@ -52,6 +56,7 @@ export default {
 	data: () => ({
 		login: '',
 		password: '',
+		error: false,
 	}),
 	computed: {
 		allUsers() {
@@ -60,12 +65,16 @@ export default {
 	},
 	methods: {
 		clickToLogin() {
+			this.error = false
 			const user = { login: this.login, password: this.password }
 			const findUser = this.allUsers.find(
 				user => user.login === this.login && user.password === this.password
 			)
 			if (findUser) {
 				store.commit('setUser', { ...findUser })
+				this.$refs.closeBtn.click()
+			} else {
+				this.error = true
 			}
 		},
 	},
