@@ -129,7 +129,7 @@ export default {
 			this.profile.telefons.push({ id: Date.now(), value: '' })
 		},
 		deleteTelefon(id) {
-			this.profile.telefons = this.telefons.filter(tel => tel.id !== id)
+			this.profile.telefons = this.profile.telefons.filter(tel => tel.id !== id)
 		},
 		changePassword(newPassword, oldPassword) {
 			if (oldPassword === this.profile.password) {

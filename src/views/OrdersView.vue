@@ -68,12 +68,10 @@ export default defineComponent({
 			this.selectPage = page
 		},
 		prevPage() {
-			if (this.selectPage === 1) return
-			this.selectPage--
+			this.selectPage = 1
 		},
 		nextPage() {
-			if (this.selectPage === this.countOfPages) return
-			this.selectPage++
+			this.selectPage = this.countOfPages
 		},
 	},
 	computed: {

@@ -61,7 +61,8 @@
 		},
 		"rules": {
 			"vue/multi-word-component-names": 0,
-			"@typescript-eslint/no-extra-semi": 0
+			"@typescript-eslint/no-extra-semi": 0,
+			"vue/no-use-v-if-with-v-for": 0
 		},
 		"overrides": [
 			{
