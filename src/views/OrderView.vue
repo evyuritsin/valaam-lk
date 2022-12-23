@@ -205,11 +205,7 @@
 							</div>
 							<div class="col-2 d-flex flex-column align-items-start">
 								<h4>QR-код</h4>
-								<img
-									src="../assets/img/qr-code.svg"
-									alt="QR-code"
-									class="w-100 mb-2"
-								/>
+								<div id="qr-code" ref="qrcode">123</div>
 								<a class="btn w-100" :href="order.qrcode">Скачать</a>
 							</div>
 						</div>
@@ -264,6 +260,8 @@ import { defineComponent } from 'vue'
 import OrderInterface from '../types/order'
 import store from '@/store'
 
+import qrcode from 'qrcode-generator'
+
 //import NavBar from '@/components/NavBar.vue';
 import TouristData from '@/components/TouristData.vue'
 import ConfirmAlert from '@/components/Alert/ConfirmAlert.vue'
@@ -302,11 +300,28 @@ export default defineComponent({
 			return store.getters.getOrderById(Number(this.$route.params.id))
 		},
 	},
+	mounted() {
+		//qr-code generated
+		const qrCode: any = this.$refs.qrcode
+		const qr = qrcode(0, 'Q')
+		qr.addData(this.order.qrcode)
+		qr.make()
+		qrCode!.innerHTML = qr.createImgTag()
+	},
 })
 </script>
 
 <style>
 .table {
 	text-align: center;
+}
+
+#qr-code {
+	height: 150px;
+}
+
+#qr-code img {
+	height: 100%;
+	width: 100%;
 }
 </style>
