@@ -26,7 +26,7 @@
 			<div
 				class="navbar-login d-flex flex-column align-items-center justify-content-center"
 			>
-				<h4>{{ helloSpan }}</h4>
+				<h4>{{ `Приветствую, ${!isAuth ? 'гость' : user.login}!` }}</h4>
 				<button
 					class="btn"
 					:class="[isAuth ? 'btn-danger' : 'btn-primary']"
@@ -34,7 +34,7 @@
 					:data-bs-target="[!isAuth && '#LoginModal']"
 					@click="logout"
 				>
-					{{ buttonLoginSpan }}
+					{{ isAuth ? 'Выйти' : 'Войти' }}
 				</button>
 			</div>
 			<div class="navbar-nav flex-row d-lg-none">
@@ -209,12 +209,6 @@ export default {
 		},
 		isAuth(): boolean {
 			return store.getters['isAuth']
-		},
-		buttonLoginSpan() {
-			return this.isAuth ? 'Выйти' : 'Войти'
-		},
-		helloSpan() {
-			return `Приветствую, ${!this.isAuth ? 'гость' : this.user.login}!`
 		},
 	},
 }
