@@ -115,7 +115,6 @@ export default defineComponent({
 					this.leftPage = 1
 					return
 				}
-				console.log(this.groupOfPage, this.leftPage)
 			},
 			deep: true,
 		},
