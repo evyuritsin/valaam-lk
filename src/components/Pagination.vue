@@ -103,14 +103,17 @@ export default defineComponent({
 				if (this.selectPage === this.rightPage) {
 					this.groupOfPage++
 					this.leftPage += 3
+					return
 				}
 				if (this.selectPage === this.leftPage && this.groupOfPage !== 0) {
 					this.groupOfPage--
 					this.leftPage -= 3
+					return
 				}
 				if (this.selectPage === 1) {
 					this.groupOfPage = 0
 					this.leftPage = 1
+					return
 				}
 				console.log(this.groupOfPage, this.leftPage)
 			},
