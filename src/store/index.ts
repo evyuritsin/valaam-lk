@@ -1,5 +1,5 @@
 import { createStore } from 'vuex'
-import OrderInterface from '@/types/order'
+import auth from './auth'
 
 export default createStore({
 	state: {
@@ -761,5 +761,5 @@ export default createStore({
 	},
 	mutations: {},
 	actions: {},
-	modules: {},
+	modules: { auth },
 })

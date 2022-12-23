@@ -23,6 +23,20 @@
 					/>
 				</router-link>
 			</h1>
+			<div
+				class="navbar-login d-flex flex-column align-items-center justify-content-center"
+			>
+				<h4>{{ helloSpan }}</h4>
+				<button
+					class="btn"
+					:class="[isAuth ? 'btn-danger' : 'btn-primary']"
+					:data-bs-toggle="[!isAuth && 'modal']"
+					:data-bs-target="[!isAuth && '#LoginModal']"
+					@click="logout"
+				>
+					{{ buttonLoginSpan }}
+				</button>
+			</div>
 			<div class="navbar-nav flex-row d-lg-none">
 				<!--div class="nav-item d-none d-lg-flex me-3">
               <div class="btn-list">
@@ -171,17 +185,38 @@
 			</div>
 		</div>
 	</aside>
+	<LoginModal />
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component'
 //import MotorShipsItem from '@/components/MotorShipsItem.vue';
+import store from '@/store'
+import LoginModal from '@/components/LoginModal.vue'
 
 export default {
 	props: [],
-	components: {},
+	components: { LoginModal },
 	data: () => ({}),
-	methods: {},
+	methods: {
+		logout() {
+			store.commit('logout')
+		},
+	},
+	computed: {
+		user() {
+			return store.getters['getAuth']
+		},
+		isAuth(): boolean {
+			return store.getters['isAuth']
+		},
+		buttonLoginSpan() {
+			return this.isAuth ? 'Выйти' : 'Войти'
+		},
+		helloSpan() {
+			return `Приветствую, ${!this.isAuth ? 'гость' : this.user.login}!`
+		},
+	},
 }
 </script>
 <style scoped lang="scss"></style>
