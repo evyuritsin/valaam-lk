@@ -12,9 +12,9 @@
 			<label class="form-label mb-2">Отчество* </label>
 			<input type="text" class="form-control" />
 		</div>
-		<div class="col-auto">
+		<div class="col-2">
 			<label class="form-label mb-2">Дата рождения </label>
-			<input type="date" class="form-control" />
+			<flatPickr v-model="date" class="form-control" />
 		</div>
 		<div class="col-auto">
 			<label class="form-label mb-2">Паспорт серия номер* </label>
@@ -24,7 +24,7 @@
 			<label class="form-label mb-2">Телефон </label>
 			<input type="tel" class="form-control" v-mask="'+7 (###) ### ## ##'" />
 		</div>
-		<div class="col-auto">
+		<div class="col">
 			<div class="form-label mb-1">Статус</div>
 			<select class="form-select">
 				<option v-for="status in touristStatuses" :key="status.id">
@@ -32,7 +32,7 @@
 				</option>
 			</select>
 		</div>
-		<div class="col-auto">
+		<div class="col">
 			<div class="form-label mb-1">Пол</div>
 			<select class="form-select">
 				<option>мужской</option>
@@ -46,6 +46,8 @@
 </template>
 
 <script lang="ts">
+import flatPickr from 'vue-flatpickr-component'
+
 export default {
 	data: () => ({
 		touristStatuses: [
@@ -54,7 +56,11 @@ export default {
 			{ id: 3, name: 'ребенок до 6 лет' },
 			{ id: 4, name: 'пенсионер' },
 		],
+		date: null,
 	}),
+	components: {
+		flatPickr,
+	},
 }
 </script>
 

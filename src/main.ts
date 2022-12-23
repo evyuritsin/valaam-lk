@@ -4,6 +4,7 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import { mask } from 'vue-the-mask'
+import 'flatpickr/dist/flatpickr.css'
 
 createApp(App)
 	.use(store)

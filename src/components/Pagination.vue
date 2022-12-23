@@ -54,7 +54,7 @@
 					:class="[groupOfPage * 3 + indx + 1 == selectPage && 'active']"
 					@click="$emit('click-to-pagination', groupOfPage * 3 + indx + 1)"
 					v-if="groupOfPage * 3 + indx + 1 < countOfPages"
-					>{{ groupOfPage * 3 + indx + 1 }}</a
+					>{{ pageNumber(indx) }}</a
 				>
 			</li>
 			<span v-if="allGroupsOfPage !== groupOfPage">...</span>
@@ -93,38 +93,15 @@ export default defineComponent({
 		allGroupsOfPage() {
 			return Math.floor(this.countOfPages / 4)
 		},
-		pageNums() {
-			return this.paginate(this.selectPage, this.countOfPages)
-		},
-	},
-	methods: {
-		paginate(current_page: number, last_page: number, onSides = 2) {
-			let pages = []
-			for (let i = 1; i <= last_page; i++) {
-				let offset = i == 1 || last_page ? onSides + 1 : onSides
-				if (
-					i == 1 ||
-					(current_page - offset <= i && current_page + offset >= i) ||
-					i == current_page ||
-					i == last_page
-				) {
-					pages.push(i)
-				} else if (
-					i == current_page - (offset + 1) ||
-					i == current_page + (offset + 1)
-				) {
-					pages.push('...')
-				}
-			}
-			return pages
+		pageNumber() {
+			return (indx: number) => this.groupOfPage * 3 + indx + 1
 		},
 	},
 	watch: {
 		selectPage() {
 			if (this.selectPage === this.rightPage) {
 				this.groupOfPage++
-				this.leftPage = this.selectPage
-				console.log(this.groupOfPage)
+				this.leftPage += 3
 			}
 			if (this.selectPage === this.leftPage && this.groupOfPage !== 0) {
 				this.groupOfPage--
