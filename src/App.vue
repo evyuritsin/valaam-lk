@@ -1,30 +1,32 @@
 <template>
-  <NavBar/>
-  <!--nav>
+	<NavBar />
+	<!--nav>
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
   </nav-->
-  <router-view/>
+	<NotAuthPage v-if="!isAuth" />
+	<router-view v-else />
 </template>
 <script>
-  import { Options, Vue } from 'vue-class-component';
-  import NavBar from '@/components/NavBar.vue';
+import { Options, Vue } from 'vue-class-component'
+import NavBar from '@/components/NavBar.vue'
+import NotAuthPage from '@/components/NotAuthPage.vue'
 
-  export default {
-    props: [
+import store from './store'
 
-    ],
-    components: {
-      NavBar,
-    },
-    data: () => ({
-      
-    }),
-    methods: {
-
-    },
-  }
+export default {
+	props: [],
+	components: {
+		NavBar,
+		NotAuthPage,
+	},
+	data: () => ({}),
+	methods: {},
+	computed: {
+		isAuth() {
+			return store.getters['isAuth']
+		},
+	},
+}
 </script>
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>

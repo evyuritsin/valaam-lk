@@ -53,10 +53,20 @@ export default {
 		login: '',
 		password: '',
 	}),
+	computed: {
+		allUsers() {
+			return store.getters['getUsers']
+		},
+	},
 	methods: {
 		clickToLogin() {
 			const user = { login: this.login, password: this.password }
-			store.commit('setUser', { ...user })
+			const findUser = this.allUsers.find(
+				user => user.login === this.login && user.password === this.password
+			)
+			if (findUser) {
+				store.commit('setUser', { ...findUser })
+			}
 		},
 	},
 }
