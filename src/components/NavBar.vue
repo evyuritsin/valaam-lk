@@ -177,6 +177,9 @@
 									<router-link class="dropdown-item" to="/orders"
 										>Мои заявки</router-link
 									>
+									<router-link class="dropdown-item" to="/cash-back"
+										>Возврат средств</router-link
+									>
 								</div>
 							</div>
 						</div>

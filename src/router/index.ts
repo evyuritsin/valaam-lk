@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import ProfileView from '../views/ProfileView.vue'
 import OrdersView from '../views/OrdersView.vue'
 import OrderView from '../views/OrderView.vue'
+import CashBackView from '../views/CashBackView.vue'
 
 const routes: Array<RouteRecordRaw> = [
 	{
@@ -18,6 +19,11 @@ const routes: Array<RouteRecordRaw> = [
 		path: '/order/:id',
 		name: 'order',
 		component: OrderView,
+	},
+	{
+		path: '/cash-back',
+		name: 'cash-back',
+		component: CashBackView,
 	},
 ]
 
