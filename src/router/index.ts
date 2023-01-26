@@ -3,6 +3,8 @@ import ProfileView from '../views/ProfileView.vue'
 import OrdersView from '../views/OrdersView.vue'
 import OrderView from '../views/OrderView.vue'
 import CashBackView from '../views/CashBackView.vue'
+import MessagesView from '../views/MessagesView.vue'
+import MessageView from '../views/MessageView.vue'
 
 const routes: Array<RouteRecordRaw> = [
 	{
@@ -24,6 +26,16 @@ const routes: Array<RouteRecordRaw> = [
 		path: '/cash-back',
 		name: 'cash-back',
 		component: CashBackView,
+	},
+	{
+		path: '/messages',
+		name: 'messages',
+		component: MessagesView,
+	},
+	{
+		path: '/message/:id',
+		name: 'message',
+		component: MessageView,
 	},
 ]
 
