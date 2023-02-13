@@ -14,12 +14,12 @@
 				</div>
 				<div class="modal-body">
 					<div class="mb-3">
-						<label class="form-label">Логин</label>
+						<label class="form-label">E-mail</label>
 						<input
-							type="text"
+							type="email"
 							class="form-control"
 							name="example-text-input"
-							v-model="login"
+							v-model="user.email"
 						/>
 					</div>
 					<div class="mb-3">
@@ -28,7 +28,7 @@
 							type="password"
 							class="form-control"
 							name="example-text-input"
-							v-model="password"
+							v-model="user.password"
 						/>
 					</div>
 					<span v-if="error" class="text-danger fs-2"
@@ -36,7 +36,11 @@
 					>
 				</div>
 				<div class="modal-footer">
-					<button @click="clickToLogin" class="btn btn-primary ms-auto w-100">
+					<button
+						@click="clickToLogin"
+						class="btn btn-primary ms-auto w-100"
+						:disabled="isLoading"
+					>
 						Войти
 					</button>
 					<button
@@ -54,27 +58,29 @@
 import store from '@/store'
 export default {
 	data: () => ({
-		login: '',
-		password: '',
+		user: {
+			email: '',
+			password: '',
+		},
 		error: false,
+		isLoading: false,
 	}),
 	computed: {
-		allUsers() {
-			return store.getters['getUsers']
+		isAuth() {
+			return store.getters['isAuth']
 		},
 	},
 	methods: {
-		clickToLogin() {
+		async clickToLogin() {
 			this.error = false
-			const user = { login: this.login, password: this.password }
-			const findUser = this.allUsers.find(
-				user => user.login === this.login && user.password === this.password
-			)
-			if (findUser) {
-				store.commit('setUser', { ...findUser })
-				this.$refs.closeBtn.click()
-			} else {
+			this.isLoading = true
+			await store.dispatch('login', { ...this.user })
+			this.isLoading = false
+			if (!this.isAuth) {
 				this.error = true
+				this.user.password = ''
+			} else {
+				this.$refs['closeBtn'].click()
 			}
 		},
 	},

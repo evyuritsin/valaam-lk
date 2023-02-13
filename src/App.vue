@@ -27,6 +27,13 @@ export default {
 			return store.getters['isAuth']
 		},
 	},
+	mounted() {
+		const token = localStorage.getItem('token')
+		if (token) {
+			store.commit('setToken', token)
+			store.dispatch('fetchProfile')
+		}
+	},
 }
 </script>
 <style lang="scss"></style>

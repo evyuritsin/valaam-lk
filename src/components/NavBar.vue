@@ -26,7 +26,7 @@
 			<div
 				class="navbar-login d-flex flex-column align-items-center justify-content-center"
 			>
-				<h4>{{ `Приветствую, ${!isAuth ? 'гость' : user.login}!` }}</h4>
+				<h4>{{ `Приветствую, ${!isAuth && 'гость'}!` }}</h4>
 				<button
 					class="btn"
 					:class="[isAuth ? 'btn-danger' : 'btn-primary']"
@@ -210,8 +210,8 @@ export default {
 		},
 	},
 	computed: {
-		user() {
-			return store.getters['getAuth']
+		profile() {
+			return store.getters['getProfile']
 		},
 		isAuth(): boolean {
 			return store.getters['isAuth']

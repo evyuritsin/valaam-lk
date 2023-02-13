@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 interface UserType {
 	id?: number | string
 	login: string
@@ -6,27 +8,65 @@ interface UserType {
 
 export default {
 	state: {
-		auth: null,
-		users: [
-			{ id: 1, login: 'tigran', password: 'qwerty123' },
-			{ id: 2, login: 'anya', password: '12345t' },
-			{ id: 1, login: 'petya', password: 'trewq1234' },
-			{ id: 1, login: 'victor', password: '1234567' },
-			{ id: 1, login: 'zhenya', password: '15151515www' },
-			{ id: 1, login: 'artem', password: '1234abc' },
-		],
+		token: null,
+		profile: null,
 	},
 	getters: {
-		isAuth: (state: any) => !!state.auth,
-		getAuth: (state: any) => state.auth,
-		getUsers: (state: any) => state.users,
+		isAuth: (state: any) => !!state.token,
+		getProfile: (state: any) => state.profile,
 	},
 	mutations: {
-		setUser(state: any, action: UserType) {
-			state.auth = action
+		setProfile(state: any, action: any) {
+			state.profile = action
+		},
+		setToken(state: any, action: any) {
+			state.token = action
 		},
 		logout(state: any) {
-			state.auth = null
+			state.token = null
+			state.profile = null
+			localStorage.removeItem('token')
+		},
+	},
+	actions: {
+		async login({ commit, dispatch }: any, { email, password }: any) {
+			const form = new FormData()
+			form.append('email', email)
+			form.append('password', password)
+
+			await fetch(
+				'http://www.valaamskiy-polomnik.directpr.beget.tech/api/auth/login',
+				{
+					method: 'POST',
+					body: form,
+				}
+			)
+				.then(response => response.json())
+				.then(({ data }) => {
+					localStorage.setItem('token', data.accessToken)
+					commit('setToken', data.accessToken)
+				})
+			dispatch('fetchProfile')
+		},
+		async fetchProfile(ctx: any) {
+			const token = localStorage.getItem('token')
+			const headers = new Headers({
+				Authorization: 'Token ' + token,
+				'Content-Type': 'application/x-www-form-urlencoded',
+				'Access-Control-Allow-Origin': '*',
+			})
+
+			await fetch(
+				'http://www.valaamskiy-polomnik.directpr.beget.tech/api/profile/',
+				{
+					headers,
+					method: 'GET',
+				}
+			)
+				.then(response => response.json())
+				.then(({ data }) => {
+					console.log(data)
+				})
 		},
 	},
 }
