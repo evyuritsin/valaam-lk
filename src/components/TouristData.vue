@@ -2,27 +2,36 @@
 	<div class="row align-items-center mb-2">
 		<div class="col-1">
 			<label class="form-label mb-2">Фамилия* </label>
-			<input type="text" class="form-control" />
+			<input type="text" class="form-control" :value="tourist.last_name" />
 		</div>
 		<div class="col-1">
 			<label class="form-label mb-2">Имя* </label>
-			<input type="text" class="form-control" />
+			<input type="text" class="form-control" :value="tourist.first_name" />
 		</div>
 		<div class="col-1">
 			<label class="form-label mb-2">Отчество* </label>
-			<input type="text" class="form-control" />
+			<input type="text" class="form-control" :value="tourist.middle_name" />
 		</div>
 		<div class="col-2">
 			<label class="form-label mb-2">Дата рождения </label>
-			<flatPickr v-model="date" class="form-control" />
+			<flatPickr
+				v-model="date"
+				class="form-control"
+				:value="tourist.birth_date"
+			/>
 		</div>
 		<div class="col-auto">
 			<label class="form-label mb-2">Паспорт серия номер* </label>
-			<input type="text" class="form-control" />
+			<input type="text" class="form-control" :value="tourist.document" />
 		</div>
 		<div class="col-auto">
 			<label class="form-label mb-2">Телефон </label>
-			<input type="tel" class="form-control" v-mask="'+7 (###) ### ## ##'" />
+			<input
+				type="tel"
+				class="form-control"
+				v-mask="'+7 (###) ### ## ##'"
+				:value="tourist.phone"
+			/>
 		</div>
 		<div class="col">
 			<div class="form-label mb-1">Статус</div>
@@ -34,7 +43,10 @@
 		</div>
 		<div class="col">
 			<div class="form-label mb-1">Пол</div>
-			<select class="form-select">
+			<select
+				class="form-select"
+				:value="tourist.gender === 'male' ? 'мужской' : 'женский'"
+			>
 				<option>мужской</option>
 				<option>женский</option>
 			</select>
@@ -61,6 +73,7 @@ export default {
 	components: {
 		flatPickr,
 	},
+	props: ['tourist'],
 }
 </script>
 

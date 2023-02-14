@@ -43,11 +43,6 @@
 					>
 						Войти
 					</button>
-					<button
-						class="d-none"
-						ref="closeBtn"
-						data-bs-dismiss="modal"
-					></button>
 				</div>
 			</div>
 		</div>
@@ -72,6 +67,7 @@ export default {
 	},
 	methods: {
 		async clickToLogin() {
+			this.$refs['closeButton'].click()
 			this.error = false
 			this.isLoading = true
 			await store.dispatch('login', { ...this.user })
@@ -79,8 +75,6 @@ export default {
 			if (!this.isAuth) {
 				this.error = true
 				this.user.password = ''
-			} else {
-				this.$refs['closeBtn'].click()
 			}
 		},
 	},

@@ -26,7 +26,10 @@
 			<div
 				class="navbar-login d-flex flex-column align-items-center justify-content-center"
 			>
-				<h4>{{ `Приветствую, ${!isAuth && 'гость'}!` }}</h4>
+				<h4 v-if="!isAuth">Приветствую, гость</h4>
+				<h4 v-else>
+					{{ `Приветствую, ${profile.firstName}` }}
+				</h4>
 				<button
 					class="btn"
 					:class="[isAuth ? 'btn-danger' : 'btn-primary']"

@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 interface UserType {
 	id?: number | string
 	login: string
@@ -35,7 +33,7 @@ export default {
 			form.append('password', password)
 
 			await fetch(
-				'http://www.valaamskiy-polomnik.directpr.beget.tech/api/auth/login',
+				'http://valaamskiy-polomnik.directpr.beget.tech/api/auth/login',
 				{
 					method: 'POST',
 					body: form,
@@ -46,18 +44,18 @@ export default {
 					localStorage.setItem('token', data.accessToken)
 					commit('setToken', data.accessToken)
 				})
-			dispatch('fetchProfile')
+			await dispatch('fetchProfile')
 		},
-		async fetchProfile(ctx: any) {
+		async fetchProfile({ commit, getters }: any) {
 			const token = localStorage.getItem('token')
 			const headers = new Headers({
-				Authorization: 'Token ' + token,
+				Authorization: 'Bearer ' + token,
 				'Content-Type': 'application/x-www-form-urlencoded',
 				'Access-Control-Allow-Origin': '*',
 			})
 
 			await fetch(
-				'http://www.valaamskiy-polomnik.directpr.beget.tech/api/profile/',
+				'http://valaamskiy-polomnik.directpr.beget.tech/api/profile/',
 				{
 					headers,
 					method: 'GET',
@@ -65,8 +63,32 @@ export default {
 			)
 				.then(response => response.json())
 				.then(({ data }) => {
-					console.log(data)
+					commit('setProfile', { ...data })
 				})
+		},
+		async updateProfile({ dispatch }: any, newProfile: any) {
+			const formData = new FormData()
+			formData.append('firstname', newProfile.firstName)
+			formData.append('patronymic', newProfile.middleName)
+			formData.append('lastname', newProfile.lastName)
+			formData.append('phone', newProfile.telefons)
+			formData.append('email', newProfile.email)
+
+			const token = localStorage.getItem('token')
+			const headers = new Headers({
+				Authorization: 'Bearer ' + token,
+				'Access-Control-Allow-Origin': '*',
+			})
+
+			await fetch(
+				'http://valaamskiy-polomnik.directpr.beget.tech/api/profile',
+				{
+					method: 'POST',
+					headers,
+					body: formData,
+				}
+			).then(response => response.json())
+			await dispatch('fetchProfile')
 		},
 	},
 }

@@ -13,7 +13,8 @@
 									<input
 										type="text"
 										class="form-control"
-										v-model="profile.lastName"
+										:class="[error && !copyProfile.lastName && 'is-invalid']"
+										v-model="copyProfile.lastName"
 									/>
 								</div>
 								<div class="col-md">
@@ -21,7 +22,8 @@
 									<input
 										type="text"
 										class="form-control"
-										v-model="profile.firstName"
+										:class="[error && !copyProfile.firstName && 'is-invalid']"
+										v-model="copyProfile.firstName"
 									/>
 								</div>
 								<div class="col-md">
@@ -29,10 +31,10 @@
 									<input
 										type="text"
 										class="form-control"
-										v-model="profile.middleName"
+										v-model="copyProfile.middleName"
 									/>
 								</div>
-								<div class="col-md">
+								<!-- <div class="col-md">
 									<div class="form-label">Пароль</div>
 									<button
 										class="btn btn-danger"
@@ -41,38 +43,41 @@
 									>
 										Сменить
 									</button>
-								</div>
+								</div> -->
 							</div>
-							<h3 class="card-title mt-4">Электронная почта</h3>
-							<div>
-								<div class="row g-1">
-									<div class="col-auto">
-										<input
-											type="text"
-											class="form-control w-auto"
-											v-model="profile.email"
-										/>
-									</div>
+							<div class="row g-4">
+								<div class="col-md">
+									<h3 class="card-title mt-4">Электронная почта</h3>
+									<input
+										type="text"
+										class="form-control"
+										:class="[error && !copyProfile.email && 'is-invalid']"
+										v-model="copyProfile.email"
+									/>
 								</div>
+								<div class="col-md">
+									<h3 class="card-title mt-4">Телефон</h3>
+									<input
+										type="text"
+										class="form-control"
+										:class="[error && !copyProfile.telefons && 'is-invalid']"
+										v-model="copyProfile.telefons"
+									/>
+								</div>
+								<div class="col-md"></div>
+								<div class="col-md"></div>
 							</div>
-							<h3 class="card-title mt-4">
-								Телефон
-								<span>
-									<button class="btn" @click="addTelefon">+</button>
-								</span>
-							</h3>
-							<TelefonItem
-								v-for="telefon in profile.telefons"
-								:key="telefon.id"
-								:telefon="telefon"
-								@deleteTelefon="deleteTelefon"
-								v-model="telefon.value"
-							/>
 						</div>
 						<div class="card-footer bg-transparent mt-auto">
 							<div class="btn-list justify-content-end">
-								<a href="#" class="btn">Отменить</a>
-								<a href="#" class="btn btn-primary">Сохранить</a>
+								<a href="#" class="btn" :disabled="isLoading">Отменить</a>
+								<a
+									href="#"
+									class="btn btn-primary"
+									@click="clickToUpdateProfile"
+									:disabled="isLoading"
+									>Сохранить</a
+								>
 							</div>
 						</div>
 					</div>
@@ -99,38 +104,28 @@
 
 <script>
 import ChangePasswordModal from '@/components/ChangePasswordModal.vue'
-import TelefonItem from '@/components/TelefonItem.vue'
 import AlertDanger from '@/components/Alert/AlertDanger.vue'
 import AlertSuccessful from '@/components/Alert/AlertSuccessful.vue'
+
+import store from '@/store'
 
 export default {
 	props: [],
 	components: {
-		TelefonItem,
 		ChangePasswordModal,
 		AlertDanger,
 		AlertSuccessful,
 	},
 	data: () => ({
-		profile: {
-			firstName: 'Иванов',
-			lastName: 'Иван',
-			middleName: 'Иванович',
-			password: '12345',
-			email: 'ivanov@gmail.com',
-			telefons: [
-				{ id: 1, value: '+7 (918) 1111 11 11' },
-				{ id: 2, value: '+7 (918) 2222 22 22' },
-			],
-		},
+		copyProfile: {},
+		isLoading: false,
+		error: false,
 	}),
+	async mounted() {
+		await store.dispatch('fetchProfile')
+		this.copyProfile = { ...this.profile }
+	},
 	methods: {
-		addTelefon() {
-			this.profile.telefons.push({ id: Date.now(), value: '' })
-		},
-		deleteTelefon(id) {
-			this.profile.telefons = this.profile.telefons.filter(tel => tel.id !== id)
-		},
 		changePassword(newPassword, oldPassword) {
 			if (oldPassword === this.profile.password) {
 				this.profile.password = newPassword
@@ -138,6 +133,25 @@ export default {
 			} else {
 				this.$refs['danger_button'].click()
 			}
+		},
+		async clickToUpdateProfile() {
+			this.error = false
+			if (
+				!this.copyProfile.firstName ||
+				!this.copyProfile.lastName ||
+				!this.copyProfile.telefons ||
+				!this.copyProfile.email
+			) {
+				return (this.error = true)
+			}
+			this.isLoading = true
+			await store.dispatch('updateProfile', { ...this.copyProfile })
+			this.isLoading = false
+		},
+	},
+	computed: {
+		profile() {
+			return store.getters.getProfile
 		},
 	},
 }

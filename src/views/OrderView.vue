@@ -3,9 +3,10 @@
 		<div class="container-xl">
 			<div class="card">
 				<div class="col d-flex flex-column">
-					<div class="card-body">
+					<div class="card-body" v-if="loaded">
 						<h2>Заявка № {{ order.id }}</h2>
-						<h2>{{ order.title }}</h2>
+						<h2 v-if="order.tour">{{ order.tour.pagetitle }}</h2>
+						<h2 v-else>Конструктор</h2>
 						<div class="row align-items-center mb-2">
 							<div class="col-2">
 								<span>Автобус</span>
@@ -67,7 +68,14 @@
 								<span>Рейс туда</span>
 							</div>
 							<div class="col-3">
-								<h4>28.07.23 Приозерск > Валаам 11:00 метеор</h4>
+								<h4>
+									{{
+										new Date(
+											order.ships_relations_from.route.created_at * 1000
+										).toLocaleString()
+									}}
+									{{ order.ships_relations_from.route.title }}
+								</h4>
 							</div>
 						</div>
 						<div class="row mb-3">
@@ -75,24 +83,29 @@
 								<span>Рейс обратно</span>
 							</div>
 							<div class="col-3">
-								<h4>30.07.23 Валаам > Приозерск 12:00 метеор</h4>
+								<h4>
+									{{
+										new Date(
+											order.ships_relations_to.route.created_at * 1000
+										).toLocaleString()
+									}}
+									{{ order.ships_relations_to.route.title }}
+								</h4>
 							</div>
 						</div>
-						<div class="row mb-4">
+						<h4>Размещение</h4>
+						<div class="row mb-4" v-for="room in order.rooms" :key="room.id">
 							<div class="col-2">
-								<span>Размещение</span>
+								<span>{{ room.room.hotel.pagetitle }}</span>
 							</div>
 							<div class="col-2">
-								<h4>Дом паломника "Валаам"</h4>
-							</div>
-							<div class="col-2">
-								<h4>Стандартные номера</h4>
+								<span>{{ room.room.pagetitle }}</span>
 							</div>
 							<div class="col-1">
-								<h4>1 номер</h4>
+								<span>1 номер</span>
 							</div>
 							<div class="col-2">
-								<h4>28.07.23 - 30.07.23</h4>
+								<span>{{ room.date_from }} - {{ room.date_to }}</span>
 							</div>
 						</div>
 						<div class="row mb-3">
@@ -111,7 +124,11 @@
 								<label class="form-label">Завтраков</label>
 							</div>
 							<div class="col-2">
-								<input type="text" class="form-control" />
+								<input
+									type="text"
+									class="form-control"
+									:value="order.tourists.length"
+								/>
 							</div>
 							<div class="col-2">
 								<select class="form-select">
@@ -126,7 +143,11 @@
 								<label class="form-label">Обедов</label>
 							</div>
 							<div class="col-2">
-								<input type="text" class="form-control" />
+								<input
+									type="text"
+									class="form-control"
+									:value="order.tourists.length"
+								/>
 							</div>
 							<div class="col-2">
 								<select class="form-select">
@@ -141,7 +162,11 @@
 								<label class="form-label">Ужинов</label>
 							</div>
 							<div class="col-2">
-								<input type="text" class="form-control" />
+								<input
+									type="text"
+									class="form-control"
+									:value="order.tourists.length"
+								/>
 							</div>
 							<div class="col-2">
 								<select class="form-select">
@@ -162,8 +187,9 @@
 						</h4>
 						<h3>Данные туристов</h3>
 						<TouristData
-							v-for="(tourist, index) in [...Array(order.persons)]"
-							:key="index"
+							v-for="tourist in order.tourists"
+							:key="tourist.id"
+							:tourist="tourist"
 						/>
 						<div class="row mb-3">
 							<div class="col-2">
@@ -205,8 +231,8 @@
 							</div>
 							<div class="col-2 d-flex flex-column align-items-start">
 								<h4>QR-код</h4>
-								<div id="qr-code" ref="qrcode">123</div>
-								<a class="btn w-100" :href="order.qrcode">Скачать</a>
+								<img :src="order.qr" alt="QR code" />
+								<a class="btn w-100">Скачать</a>
 							</div>
 						</div>
 						<div class="row align-items-center mb-3">
@@ -271,6 +297,7 @@ export default defineComponent({
 	props: [],
 	components: { TouristData, ConfirmAlert, ConditionAlert },
 	data: () => ({
+		order: {} as any,
 		eatOptions: [
 			{ id: 1, name: 'Стандартное' },
 			{ id: 2, name: 'Постное' },
@@ -280,6 +307,7 @@ export default defineComponent({
 			isCondition: false as boolean,
 			isConfirm: false as boolean,
 		},
+		loaded: false as boolean,
 	}),
 	methods: {
 		cancelTheOrder() {
@@ -295,18 +323,25 @@ export default defineComponent({
 			this.$router.push('/orders')
 		},
 	},
-	computed: {
-		order(): OrderInterface {
-			return store.getters.getOrderById(Number(this.$route.params.id))
-		},
-	},
-	mounted() {
-		//qr-code generated
-		const qrCode: any = this.$refs.qrcode
-		const qr = qrcode(0, 'Q')
-		qr.addData(this.order.qrcode)
-		qr.make()
-		qrCode!.innerHTML = qr.createImgTag()
+	computed: {},
+	async mounted() {
+		const orderId = this.$route.params.id
+		const token = localStorage.getItem('token')
+		const headers = new Headers({
+			Authorization: 'Bearer ' + token,
+			'Content-Type': 'application/x-www-form-urlencoded',
+			'Access-Control-Allow-Origin': '*',
+		})
+		const response = await fetch(
+			`http://valaamskiy-polomnik.directpr.beget.tech/api/order/${orderId}`,
+			{
+				headers,
+			}
+		)
+			.then(response => response.json())
+			.then(({ data }) => data)
+		this.order = { ...response }
+		this.loaded = true
 	},
 })
 </script>

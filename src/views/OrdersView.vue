@@ -4,12 +4,12 @@
 			<div class="card">
 				<div class="col d-flex flex-column">
 					<div
-						v-if="!orders.length"
+						v-if="!orders.length && loaded"
 						class="card-body d-flex justify-content-center p-5"
 					>
 						<h1>Еще не создано ни одного заказа</h1>
 					</div>
-					<div v-else class="card-body">
+					<div v-else-if="loaded && orders.length" class="card-body">
 						<table class="table mb-3">
 							<thead>
 								<tr>
@@ -20,7 +20,6 @@
 									<th>Сумма (руб.)</th>
 									<th>Тип оплаты</th>
 									<th>Статус</th>
-									<th>QR-код</th>
 									<th></th>
 								</tr>
 							</thead>
@@ -61,7 +60,9 @@ export default defineComponent({
 	props: [],
 	components: { Pagination, TableOrder },
 	data: () => ({
+		orders: [] as any,
 		selectPage: 1,
+		loaded: false,
 	}),
 	methods: {
 		clickToPagination(page: number) {
@@ -75,9 +76,6 @@ export default defineComponent({
 		},
 	},
 	computed: {
-		orders(): OrderInterface[] {
-			return store.getters['getOrders']
-		},
 		countOfPages(): number {
 			return Math.floor(this.orders.length / 5)
 		},
@@ -86,6 +84,25 @@ export default defineComponent({
 				end = start + 5
 			return this.orders.slice(start, end)
 		},
+	},
+	async mounted() {
+		const token = localStorage.getItem('token')
+		const headers = new Headers({
+			Authorization: 'Bearer ' + token,
+			'Content-Type': 'application/x-www-form-urlencoded',
+			'Access-Control-Allow-Origin': '*',
+		})
+		const orders = await fetch(
+			'http://valaamskiy-polomnik.directpr.beget.tech/api/orders/',
+			{
+				headers,
+			}
+		)
+			.then(responce => responce.json())
+			.then(({ data }) => data.orders)
+
+		this.orders = [...orders]
+		this.loaded = true
 	},
 })
 </script>
