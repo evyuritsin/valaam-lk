@@ -226,7 +226,7 @@
 							<div class="col-6 d-flex flex-column align-items-start">
 								<div class="d-flex gap-2 align-items-center">
 									<img src="../assets/icons/file.svg" alt="File Icon" />
-									<a href="#">Билет.pdf</a>
+									<a :href="`/api/ticket/${order.id}`">Билет.pdf</a>
 								</div>
 							</div>
 							<div class="col-2 d-flex flex-column align-items-start">
