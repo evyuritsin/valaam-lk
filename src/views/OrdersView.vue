@@ -62,7 +62,7 @@ export default defineComponent({
 	data: () => ({
 		orders: [] as any,
 		selectPage: 1,
-		loaded: false,
+		loaded: true,
 	}),
 	methods: {
 		clickToPagination(page: number) {
@@ -80,7 +80,7 @@ export default defineComponent({
 			return Math.floor(this.orders.length / 5)
 		},
 		shownOrders(): OrderInterface[] {
-			const start = this.selectPage * 5,
+			const start = this.selectPage * 5 - 5,
 				end = start + 5
 			return this.orders.slice(start, end)
 		},
@@ -100,7 +100,6 @@ export default defineComponent({
 		)
 			.then(responce => responce.json())
 			.then(({ data }) => data.orders)
-
 		this.orders = [...orders]
 		this.loaded = true
 	},

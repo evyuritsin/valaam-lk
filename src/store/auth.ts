@@ -1,9 +1,3 @@
-interface UserType {
-	id?: number | string
-	login: string
-	password: string
-}
-
 export default {
 	state: {
 		token: null,

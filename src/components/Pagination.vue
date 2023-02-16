@@ -47,6 +47,7 @@
 					<span aria-hidden="true">&laquo;</span>
 				</a>
 			</li>
+			<span v-if="allGroupsOfPage === groupOfPage">...</span>
 			<li class="page-item" v-for="(link, indx) in [...Array(4)]" :key="indx">
 				<a
 					class="page-link"
@@ -101,8 +102,10 @@ export default defineComponent({
 		selectPage: {
 			handler() {
 				if (this.selectPage === this.rightPage) {
-					this.groupOfPage++
-					this.leftPage += 3
+					if (this.groupOfPage <= this.allGroupsOfPage - 1) {
+						this.groupOfPage++
+						this.leftPage += 3
+					}
 				} else if (
 					this.selectPage === this.leftPage &&
 					this.groupOfPage !== 0
@@ -112,6 +115,10 @@ export default defineComponent({
 				} else if (this.selectPage === 1) {
 					this.groupOfPage = 0
 					this.leftPage = 1
+				}
+				if (this.selectPage === this.countOfPages) {
+					this.groupOfPage = this.allGroupsOfPage
+					this.leftPage = this.selectPage - 3
 				}
 			},
 			deep: true,
