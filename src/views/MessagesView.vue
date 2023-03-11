@@ -71,7 +71,7 @@ export default {
 			return Math.floor(this.messages.length / 5)
 		},
 		shownMessages() {
-			const start = this.selectPage * 5,
+			const start = this.selectPage * 5 - 5,
 				end = start + 5
 			return this.messages.slice(start, end)
 		},

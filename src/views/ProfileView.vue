@@ -34,7 +34,7 @@
 										v-model="copyProfile.middleName"
 									/>
 								</div>
-								<!-- <div class="col-md">
+								<div class="col-md">
 									<div class="form-label">Пароль</div>
 									<button
 										class="btn btn-danger"
@@ -43,7 +43,7 @@
 									>
 										Сменить
 									</button>
-								</div> -->
+								</div>
 							</div>
 							<div class="row g-4">
 								<div class="col-md">
@@ -126,12 +126,14 @@ export default {
 		this.copyProfile = { ...this.profile }
 	},
 	methods: {
-		changePassword(newPassword, oldPassword) {
-			if (oldPassword === this.profile.password) {
-				this.profile.password = newPassword
-				this.$refs['successful_button'].click()
-			} else {
+		async changePassword(passwords) {
+			const { status } = await store.dispatch('changePassword', {
+				...passwords,
+			})
+			if (status === 'error') {
 				this.$refs['danger_button'].click()
+			} else {
+				this.$refs['successful_button'].click()
 			}
 		},
 		async clickToUpdateProfile() {

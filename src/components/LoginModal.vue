@@ -35,15 +35,13 @@
 						>Неверный логин или пароль</span
 					>
 				</div>
-				<div class="modal-footer">
-					<button
-						@click="clickToLogin"
-						class="btn btn-primary ms-auto w-100"
-						:disabled="isLoading"
-					>
-						Войти
-					</button>
-				</div>
+				<button
+					@click="clickToLogin"
+					class="btn btn-primary w-100"
+					:disabled="isLoading"
+				>
+					Войти
+				</button>
 			</div>
 		</div>
 	</div>

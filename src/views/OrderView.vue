@@ -7,7 +7,7 @@
 						<h2>Заявка № {{ order.id }}</h2>
 						<h2 v-if="order.tour">{{ order.tour.pagetitle }}</h2>
 						<h2 v-else>Конструктор</h2>
-						<div class="row align-items-center mb-2">
+						<!-- <div class="row align-items-center mb-2">
 							<div class="col-2">
 								<span>Автобус</span>
 							</div>
@@ -62,19 +62,15 @@
 							<div class="col-2">
 								<h4>89012345678</h4>
 							</div>
-						</div>
+						</div> -->
 						<div class="row mb-3">
 							<div class="col-2">
 								<span>Рейс туда</span>
 							</div>
 							<div class="col-3">
 								<h4>
-									{{
-										new Date(
-											order.ships_relations_from.route.created_at * 1000
-										).toLocaleString()
-									}}
-									{{ order.ships_relations_from.route.title }}
+									{{}}
+									{{}}
 								</h4>
 							</div>
 						</div>
@@ -84,12 +80,8 @@
 							</div>
 							<div class="col-3">
 								<h4>
-									{{
-										new Date(
-											order.ships_relations_to.route.created_at * 1000
-										).toLocaleString()
-									}}
-									{{ order.ships_relations_to.route.title }}
+									{{}}
+									{{}}
 								</h4>
 							</div>
 						</div>
@@ -176,7 +168,7 @@
 								</select>
 							</div>
 						</div>
-						<h3>Питание</h3>
+						<h3>Экскурсии</h3>
 						<h4>
 							<a href="#" class="text-decoration-underline">Никольский скит</a>
 						</h4>
@@ -232,7 +224,6 @@
 							<div class="col-2 d-flex flex-column align-items-start">
 								<h4>QR-код</h4>
 								<img :src="order.qr" alt="QR code" />
-								<a class="btn w-100">Скачать</a>
 							</div>
 						</div>
 						<div class="row align-items-center mb-3">
@@ -341,6 +332,7 @@ export default defineComponent({
 			.then(response => response.json())
 			.then(({ data }) => data)
 		this.order = { ...response }
+		console.log(this.order)
 		this.loaded = true
 	},
 })

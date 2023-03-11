@@ -15,31 +15,31 @@
 					<div class="mb-3">
 						<label class="form-label">Старый пароль</label>
 						<input
-							type="text"
+							type="password"
 							class="form-control"
 							name="example-text-input"
 							placeholder="Старый пароль"
-							v-model="oldPassword"
+							v-model="passwords.oldPassword"
 						/>
 					</div>
 					<div class="mb-3">
 						<label class="form-label">Новый пароль</label>
 						<input
-							type="text"
+							type="password"
 							class="form-control"
 							name="example-text-input"
 							placeholder="Новый пароль"
-							v-model="newPassword"
+							v-model="passwords.newPassword"
 						/>
 					</div>
 					<div class="mb-3">
 						<label class="form-label">Повторить пароль</label>
 						<input
-							type="text"
+							type="password"
 							class="form-control"
 							name="example-text-input"
 							placeholder="Повторить пароль"
-							v-model="repeatNewPassword"
+							v-model="passwords.repeatNewPassword"
 						/>
 					</div>
 				</div>
@@ -81,23 +81,25 @@ export default defineComponent({
 	props: [],
 	components: { AlertDanger },
 	data: () => ({
-		oldPassword: '',
-		newPassword: '',
-		repeatNewPassword: '',
+		passwords: {
+			oldPassword: '',
+			newPassword: '',
+			repeatNewPassword: '',
+		},
 	}),
 	methods: {
 		changePassword() {
-			if (this.newPassword === this.repeatNewPassword) {
-				this.$emit('changePassword', this.newPassword, this.oldPassword)
+			if (this.passwords.newPassword === this.passwords.repeatNewPassword) {
+				this.$emit('changePassword', { ...this.passwords })
 			} else {
 				;(this.$refs['danger_button'] as any).click()
 			}
 			this.refreshInputs()
 		},
 		refreshInputs() {
-			this.oldPassword = ''
-			this.newPassword = ''
-			this.repeatNewPassword = ''
+			this.passwords.oldPassword = ''
+			this.passwords.newPassword = ''
+			this.passwords.repeatNewPassword = ''
 		},
 	},
 })

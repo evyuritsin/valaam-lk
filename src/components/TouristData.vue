@@ -2,15 +2,15 @@
 	<div class="row align-items-center mb-2">
 		<div class="col-1">
 			<label class="form-label mb-2">Фамилия* </label>
-			<input type="text" class="form-control" :value="tourist.last_name" />
+			<input type="text" class="form-control" :value="tourist.lastname" />
 		</div>
 		<div class="col-1">
 			<label class="form-label mb-2">Имя* </label>
-			<input type="text" class="form-control" :value="tourist.first_name" />
+			<input type="text" class="form-control" :value="tourist.firstname" />
 		</div>
 		<div class="col-1">
 			<label class="form-label mb-2">Отчество* </label>
-			<input type="text" class="form-control" :value="tourist.middle_name" />
+			<input type="text" class="form-control" :value="tourist.patronymic" />
 		</div>
 		<div class="col-2">
 			<label class="form-label mb-2">Дата рождения </label>
@@ -21,7 +21,7 @@
 			/>
 		</div>
 		<div class="col-auto">
-			<label class="form-label mb-2">Паспорт серия номер* </label>
+			<label class="form-label mb-2">Документ* </label>
 			<input type="text" class="form-control" :value="tourist.document" />
 		</div>
 		<div class="col-auto">

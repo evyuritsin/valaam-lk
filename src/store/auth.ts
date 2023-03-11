@@ -26,18 +26,22 @@ export default {
 			form.append('email', email)
 			form.append('password', password)
 
-			await fetch(
+			const { data, status } = await fetch(
 				'http://valaamskiy-polomnik.directpr.beget.tech/api/auth/login',
 				{
 					method: 'POST',
 					body: form,
 				}
-			)
-				.then(response => response.json())
-				.then(({ data }) => {
-					localStorage.setItem('token', data.accessToken)
-					commit('setToken', data.accessToken)
-				})
+			).then(response => response.json())
+
+			if (status === 'error') {
+				return
+			}
+
+			if (data.accessToken) {
+				localStorage.setItem('token', data.accessToken)
+				commit('setToken', data.accessToken)
+			}
 			await dispatch('fetchProfile')
 		},
 		async fetchProfile({ commit, getters }: any) {
@@ -83,6 +87,27 @@ export default {
 				}
 			).then(response => response.json())
 			await dispatch('fetchProfile')
+		},
+		async changePassword(ctx: any, passwords: any) {
+			const form = new FormData()
+			form.append('old_password', passwords.oldPassword)
+			form.append('password', passwords.newPassword)
+			form.append('password_confirmation', passwords.repeatNewPassword)
+
+			const token = localStorage.getItem('token')
+			const headers = new Headers({
+				Authorization: 'Bearer ' + token,
+				'Access-Control-Allow-Origin': '*',
+			})
+
+			return await fetch(
+				'http://valaamskiy-polomnik.directpr.beget.tech/api/profile/password',
+				{
+					method: 'POST',
+					headers,
+					body: form,
+				}
+			).then(response => response.json())
 		},
 	},
 }

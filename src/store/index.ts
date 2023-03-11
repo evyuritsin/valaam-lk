@@ -810,7 +810,6 @@ export default createStore({
 				message: 'Ваш рейс был перенесен.',
 				isNew: true,
 			},
-
 			{
 				id: 8,
 				date: '9.02.2022',
