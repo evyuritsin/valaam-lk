@@ -68,7 +68,7 @@ export default {
 			return this.$store.getters['getMessages']
 		},
 		countOfPages() {
-			return Math.floor(this.messages.length / 5)
+			return Math.сeil(this.messages.length / 5)
 		},
 		shownMessages() {
 			const start = this.selectPage * 5 - 5,

@@ -77,7 +77,7 @@ export default defineComponent({
 	},
 	computed: {
 		countOfPages(): number {
-			return Math.floor(this.orders.length / 5)
+			return Math.ceil(this.orders.length / 5)
 		},
 		shownOrders(): OrderInterface[] {
 			const start = this.selectPage * 5 - 5,
