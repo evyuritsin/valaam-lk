@@ -13,7 +13,8 @@
 						<table class="table mb-3">
 							<thead>
 								<tr>
-									<th scope="col">Дата</th>
+									<th scope="col">Заказ №</th>
+									<th>Дата</th>
 									<th>Время</th>
 									<th>Название программы</th>
 									<th>Человек</th>
