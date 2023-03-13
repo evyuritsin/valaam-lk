@@ -65,39 +65,48 @@
 						</div> -->
 						<div class="row mb-3">
 							<div class="col-2">
-								<span>Рейс туда</span>
+								<h4>Рейс туда</h4>
 							</div>
-							<div class="col-3">
-								<h4>
-									{{}}
-									{{}}
-								</h4>
+							<div class="col-auto">
+								<span>
+									{{
+										new Date(shipThere.date).toLocaleDateString() +
+										',' +
+										shipThere.schedule.time_start
+									}}
+									{{ shipThere.schedule.route.title }}
+								</span>
 							</div>
 						</div>
 						<div class="row mb-3">
 							<div class="col-2">
-								<span>Рейс обратно</span>
+								<h4>Рейс обратно</h4>
 							</div>
-							<div class="col-3">
-								<h4>
-									{{}}
-									{{}}
-								</h4>
+							<div class="col-auto">
+								<span>
+									{{
+										new Date(shipBack.date).toLocaleDateString() +
+										',' +
+										shipBack.schedule.time_start
+									}}
+									{{ shipBack.schedule.route.title }}
+								</span>
 							</div>
 						</div>
 						<h4>Размещение</h4>
-						<div class="row mb-4" v-for="room in order.rooms" :key="room.id">
+						<div
+							class="row mb-4"
+							v-for="room in order.rooms_relations"
+							:key="room.id"
+						>
 							<div class="col-2">
-								<span>{{ room.room.hotel.pagetitle }}</span>
+								<span>{{ room.schedule.room.hotel.pagetitle }}</span>
 							</div>
 							<div class="col-2">
-								<span>{{ room.room.pagetitle }}</span>
-							</div>
-							<div class="col-1">
-								<span>1 номер</span>
+								<span>{{ room.schedule.room.pagetitle }}</span>
 							</div>
 							<div class="col-2">
-								<span>{{ room.date_from }} - {{ room.date_to }}</span>
+								<span>date_from - date_to</span>
 							</div>
 						</div>
 						<div class="row mb-3">
@@ -119,15 +128,31 @@
 								<input
 									type="text"
 									class="form-control"
-									:value="order.tourists.length"
+									:value="breakfastAmount.standard"
 								/>
 							</div>
 							<div class="col-2">
-								<select class="form-select">
-									<option v-for="item in eatOptions" :key="item.id">
-										{{ item.name }}
-									</option>
-								</select>
+								<span>Стандартное</span>
+							</div>
+							<div class="col-2">
+								<input
+									type="text"
+									class="form-control"
+									:value="breakfastAmount.meatless"
+								/>
+							</div>
+							<div class="col-2">
+								<span>Постное</span>
+							</div>
+							<div class="col-2">
+								<input
+									type="text"
+									class="form-control"
+									:value="breakfastAmount.children"
+								/>
+							</div>
+							<div class="col-2">
+								<span>Детское</span>
 							</div>
 						</div>
 						<div class="row align-items-center mb-2">
@@ -138,18 +163,34 @@
 								<input
 									type="text"
 									class="form-control"
-									:value="order.tourists.length"
+									:value="lunchAmount.standard"
 								/>
 							</div>
 							<div class="col-2">
-								<select class="form-select">
-									<option v-for="item in eatOptions" :key="item.id">
-										{{ item.name }}
-									</option>
-								</select>
+								<span>Стандартное</span>
+							</div>
+							<div class="col-2">
+								<input
+									type="text"
+									class="form-control"
+									:value="lunchAmount.meatless"
+								/>
+							</div>
+							<div class="col-2">
+								<span>Постное</span>
+							</div>
+							<div class="col-2">
+								<input
+									type="text"
+									class="form-control"
+									:value="lunchAmount.children"
+								/>
+							</div>
+							<div class="col-2">
+								<span>Детское</span>
 							</div>
 						</div>
-						<div class="row align-items-center mb-5">
+						<div class="row align-items-center mb-2">
 							<div class="col-1">
 								<label class="form-label">Ужинов</label>
 							</div>
@@ -157,15 +198,31 @@
 								<input
 									type="text"
 									class="form-control"
-									:value="order.tourists.length"
+									:value="dinnerAmount.standard"
 								/>
 							</div>
 							<div class="col-2">
-								<select class="form-select">
-									<option v-for="item in eatOptions" :key="item.id">
-										{{ item.name }}
-									</option>
-								</select>
+								<span>Стандартное</span>
+							</div>
+							<div class="col-2">
+								<input
+									type="text"
+									class="form-control"
+									:value="dinnerAmount.meatless"
+								/>
+							</div>
+							<div class="col-2">
+								<span>Постное</span>
+							</div>
+							<div class="col-2">
+								<input
+									type="text"
+									class="form-control"
+									:value="dinnerAmount.children"
+								/>
+							</div>
+							<div class="col-2">
+								<span>Детское</span>
 							</div>
 						</div>
 						<h3>Экскурсии</h3>
@@ -314,7 +371,81 @@ export default defineComponent({
 			this.$router.push('/orders')
 		},
 	},
-	computed: {},
+	computed: {
+		shipThere() {
+			return this.order.ships.filter(
+				(ship: any) => ship.schedule.route.direction_id === '1'
+			)[0]
+		},
+		shipBack() {
+			return this.order.ships.filter(
+				(ship: any) => ship.schedule.route.direction_id === '2'
+			)[0]
+		},
+		breakfastAmount() {
+			const amount = {
+				standard: 0,
+				meatless: 0,
+				children: 0,
+			}
+			this.order.meals_relations.forEach((meal: any) => {
+				if (meal.schedule.meal.title === 'Завтрак') {
+					if (meal.schedule.type.title === 'Основное меню') {
+						amount.standard++
+					}
+					if (meal.schedule.type.title === 'Постное меню') {
+						amount.meatless++
+					}
+					if (meal.schedule.type.title === 'Детское меню') {
+						amount.children++
+					}
+				}
+			})
+			return { ...amount }
+		},
+		lunchAmount() {
+			const amount = {
+				standard: 0,
+				meatless: 0,
+				children: 0,
+			}
+			this.order.meals_relations.forEach((meal: any) => {
+				if (meal.schedule.meal.title === 'Обед') {
+					if (meal.schedule.type.title === 'Основное меню') {
+						amount.standard++
+					}
+					if (meal.schedule.type.title === 'Постное меню') {
+						amount.meatless++
+					}
+					if (meal.schedule.type.title === 'Детское меню') {
+						amount.children++
+					}
+				}
+			})
+			return { ...amount }
+		},
+		dinnerAmount() {
+			const amount = {
+				standard: 0,
+				meatless: 0,
+				children: 0,
+			}
+			this.order.meals_relations.forEach((meal: any) => {
+				if (meal.schedule.meal.title === 'Ужин') {
+					if (meal.schedule.type.title === 'Основное меню') {
+						amount.standard++
+					}
+					if (meal.schedule.type.title === 'Постное меню') {
+						amount.meatless++
+					}
+					if (meal.schedule.type.title === 'Детское меню') {
+						amount.children++
+					}
+				}
+			})
+			return { ...amount }
+		},
+	},
 	async mounted() {
 		const orderId = this.$route.params.id
 		const token = localStorage.getItem('token')

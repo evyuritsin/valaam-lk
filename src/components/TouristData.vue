@@ -51,9 +51,6 @@
 				<option>женский</option>
 			</select>
 		</div>
-		<div class="col-auto cursor-pointer">
-			<img src="../assets/icons/edit.svg" alt="Edit Icon" height="30" />
-		</div>
 	</div>
 </template>
 

@@ -63,7 +63,7 @@ export default defineComponent({
 	data: () => ({
 		orders: [] as any,
 		selectPage: 1,
-		loaded: true,
+		loaded: false,
 	}),
 	methods: {
 		clickToPagination(page: number) {
